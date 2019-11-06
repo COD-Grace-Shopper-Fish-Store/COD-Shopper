@@ -8,6 +8,8 @@ const Order = db.define('order', {
   }
 })
 
+console.log('hello')
+
 //Creates FK to user table.
 
 module.exports = Order

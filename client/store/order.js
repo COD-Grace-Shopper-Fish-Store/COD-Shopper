@@ -8,6 +8,7 @@ const ADD_TO_CART = 'ADD_TO_CART'
 const GET_CART = 'GET_CART'
 const GET_ORDERITEM = 'GET_ORDERITEM'
 const UPDATE_CART = 'UPDATE_CART'
+const DELETE_PRODUCT_FROM_CART = 'DELETE_PRODUCT_FROM_CART'
 
 /**
  * INITIAL STATE
@@ -23,6 +24,10 @@ const addToCartAction = order => ({type: ADD_TO_CART, order})
 const getCartAction = orderProducts => ({type: GET_CART, orderProducts})
 const getOrderItemAction = orderItems => ({type: GET_ORDERITEM, orderItems})
 const updateCartAction = order => ({type: UPDATE_CART, order})
+export const deleteProductFromCart = id => ({
+  type: DELETE_PRODUCT_FROM_CART,
+  itemId: id
+})
 
 /**
  * THUNK CREATORS
@@ -91,6 +96,14 @@ export default function(state = defaultOrder, action) {
       return {...state, ...action.orderItems}
     case UPDATE_CART:
       return {...state, ...action.orderItems}
+    case DELETE_PRODUCT_FROM_CART:
+      return {
+        ...state,
+        0: {
+          ...state[0],
+          products: state[0].products.filter(item => item.id !== action.itemId)
+        }
+      }
     default:
       return state
   }

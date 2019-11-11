@@ -31,8 +31,6 @@ class OrderProducts extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    console.log('this.props: ', this.props)
-    console.log('this.state.orders: ', this.state.orders[0].id)
     let order = {
       id: this.state.orders[0].id,
       totalPrice: this.state.showTotalPrice
@@ -130,7 +128,11 @@ class OrderProducts extends Component {
                           {product.name}
                         </Link>
                         <div>
-                          <button type="button" className="deleteButton">
+                          <button
+                            type="button"
+                            className="deleteButton"
+                            onClick={this.props.deleteProductHandler}
+                          >
                             Delete
                           </button>
                         </div>

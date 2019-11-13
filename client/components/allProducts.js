@@ -7,7 +7,7 @@ class AllProducts extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      filtered: this.props.products.productList
+      filtered: []
     }
     this.handleChange = this.handleChange.bind(this)
   }

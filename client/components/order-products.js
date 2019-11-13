@@ -55,7 +55,7 @@ class OrderProducts extends Component {
       return (
         <form onSubmit={this.handleSubmit}>
           <div>
-            <h5>Total Price: ${this.props.order.totalPrice / 100} </h5>
+            <h5>Total Price: ${this.props.order[0].totalPrice / 100} </h5>
             <button
               type="submit"
               name="save"

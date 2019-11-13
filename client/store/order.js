@@ -96,7 +96,10 @@ export const createCart = userId => async dispatch => {
   }
 }
 
-export const deleteProductFromCart = (productId, orderId) => async dispatch => {
+export const deleteProductFromCart = (productId, orderId) => async (
+  dispatch,
+  getState
+) => {
   try {
     console.log('in ACTION, productID: ', productId, 'orderId: ', orderId)
     const response = await axios.delete('/api/orders/deleteitem', {
@@ -105,7 +108,14 @@ export const deleteProductFromCart = (productId, orderId) => async dispatch => {
         orderId: orderId
       }
     })
-    dispatch(deleteProductFromCartAction(productId))
+    const userId = getState().user.id
+    await dispatch(deleteProductFromCartAction(productId))
+    try {
+      const response = await axios.get(`/api/orders/${userId}/getCart`)
+      dispatch(getCartAction(response.data))
+    } catch (err) {
+      console.error(err)
+    }
   } catch (err) {
     console.error(err)
   }

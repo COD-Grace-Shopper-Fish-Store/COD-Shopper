@@ -37,6 +37,7 @@ class UserHome extends React.Component {
       Number(evt.currentTarget.value),
       this.props.orders[0].id
     )
+
     this.forceUpdate()
   }
 

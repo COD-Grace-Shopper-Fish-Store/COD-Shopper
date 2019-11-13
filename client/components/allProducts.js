@@ -59,11 +59,17 @@ class AllProducts extends React.Component {
           placeholder="Search..."
         /> */}
         <ul>
-          {this.state.filtered.map(product => (
-            <li key={product.id}>
-              <Link to={`/products/${product.id}`}>{product.name}</Link>
-            </li>
-          ))}
+          {this.state.filtered.length > 0
+            ? this.state.filtered.map(product => (
+                <li key={product.id}>
+                  <Link to={`/products/${product.id}`}>{product.name}</Link>
+                </li>
+              ))
+            : this.props.products.productList.map(product => (
+                <li key={product.id}>
+                  <Link to={`/products/${product.id}`}>{product.name}</Link>
+                </li>
+              ))}
         </ul>
       </div>
     )

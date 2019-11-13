@@ -46,9 +46,10 @@ class AllProducts extends React.Component {
     this.setState({
       filtered: newList
     })
+    console.log(this.state.filtered)
   }
   render() {
-    const {products} = this.props
+    console.log(this.state.filtered)
     return (
       <div className="all-products-body">
         <h1>All the fishies!</h1>
@@ -59,11 +60,17 @@ class AllProducts extends React.Component {
           placeholder="Search..."
         />
         <ul>
-          {products.productList.map(product => (
-            <li key={product.id}>
-              <Link to={`/products/${product.id}`}>{product.name}</Link>
-            </li>
-          ))}
+          {this.state.filtered > 0
+            ? this.state.filtered.map(product => (
+                <li key={product.id}>
+                  <Link to={`/products/${product.id}`}>{product.name}</Link>
+                </li>
+              ))
+            : this.props.products.productList.map(product => (
+                <li key={product.id}>
+                  <Link to={`/products/${product.id}`}>{product.name}</Link>
+                </li>
+              ))}
         </ul>
       </div>
     )

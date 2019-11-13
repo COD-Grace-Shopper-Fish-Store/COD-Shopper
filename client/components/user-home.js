@@ -1,5 +1,4 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import {connect} from 'react-redux'
 import {
   createCart,
@@ -8,6 +7,7 @@ import {
   cartCreatedAction
 } from '../store'
 import OrderProducts from './order-products'
+import {withRouter} from 'react-router-dom'
 
 /**
  * COMPONENT
@@ -37,6 +37,7 @@ class UserHome extends React.Component {
       Number(evt.currentTarget.value),
       this.props.orders[0].id
     )
+    this.forceUpdate()
   }
 
   render() {
@@ -56,12 +57,7 @@ class UserHome extends React.Component {
         </div>
       )
     } else {
-      return (
-        <div>
-          <h3>Welcome, {this.props.user.firstName}</h3>
-          <h4>Your Shopping Cart: </h4>
-        </div>
-      )
+      return 'loading...'
     }
   }
 }
@@ -87,9 +83,4 @@ const mapDispatch = dispatch => ({
   cartCreated: () => dispatch(cartCreatedAction())
 })
 
-export default connect(mapState, mapDispatch)(UserHome)
-
-/**
- * PROP TYPES
- */
-UserHome.propTypes = {}
+export default connect(mapState, mapDispatch)(withRouter(UserHome))

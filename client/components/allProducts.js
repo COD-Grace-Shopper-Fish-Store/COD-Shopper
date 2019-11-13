@@ -7,7 +7,7 @@ class AllProducts extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      filtered: []
+      filtered: this.props.products.productList
     }
     this.handleChange = this.handleChange.bind(this)
   }
@@ -49,7 +49,6 @@ class AllProducts extends React.Component {
     console.log(this.state.filtered)
   }
   render() {
-    console.log(this.state.filtered)
     return (
       <div className="all-products-body">
         <h1>All the fishies!</h1>
@@ -60,17 +59,11 @@ class AllProducts extends React.Component {
           placeholder="Search..."
         />
         <ul>
-          {this.state.filtered > 0
-            ? this.state.filtered.map(product => (
-                <li key={product.id}>
-                  <Link to={`/products/${product.id}`}>{product.name}</Link>
-                </li>
-              ))
-            : this.props.products.productList.map(product => (
-                <li key={product.id}>
-                  <Link to={`/products/${product.id}`}>{product.name}</Link>
-                </li>
-              ))}
+          {this.state.filtered.map(product => (
+            <li key={product.id}>
+              <Link to={`/products/${product.id}`}>{product.name}</Link>
+            </li>
+          ))}
         </ul>
       </div>
     )

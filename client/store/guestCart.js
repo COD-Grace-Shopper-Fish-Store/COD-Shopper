@@ -71,9 +71,9 @@ export default function(state = initialState, action) {
         ...state,
         orderItems: {
           ...state.orderItems,
-          [action.product.id]: {
+          [action.productId]: {
             ...state.orderItems[action.productId],
-            quantity: state.orderItems[action.product.id].quantity + 1
+            quantity: state.orderItems[action.productId].quantity + 1
           }
         }
       }
@@ -84,9 +84,9 @@ export default function(state = initialState, action) {
         ...state,
         orderItems: {
           ...state.orderItems,
-          [action.product.id]: {
+          [action.productId]: {
             ...state.orderItems[action.productId],
-            quantity: state.orderItems[action.product.id].quantity - 1
+            quantity: state.orderItems[action.productId].quantity - 1
           }
         }
       }

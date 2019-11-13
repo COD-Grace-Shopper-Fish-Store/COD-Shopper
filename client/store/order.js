@@ -96,7 +96,10 @@ export const createCart = userId => async dispatch => {
   }
 }
 
-export const deleteProductFromCart = (productId, orderId) => async dispatch => {
+export const deleteProductFromCart = (productId, orderId) => async (
+  dispatch,
+  getState
+) => {
   try {
     console.log('in ACTION, productID: ', productId, 'orderId: ', orderId)
     const response = await axios.delete('/api/orders/deleteitem', {
@@ -105,7 +108,14 @@ export const deleteProductFromCart = (productId, orderId) => async dispatch => {
         orderId: orderId
       }
     })
-    dispatch(deleteProductFromCartAction(productId))
+    const userId = getState().user.id
+    await dispatch(deleteProductFromCartAction(productId))
+    try {
+      const response = await axios.get(`/api/orders/${userId}/getCart`)
+      dispatch(getCartAction(response.data))
+    } catch (err) {
+      console.error(err)
+    }
   } catch (err) {
     console.error(err)
   }
@@ -118,12 +128,13 @@ export default function(state = defaultOrder, action) {
   Object.freeze(state)
   switch (action.type) {
     case CREATE_CART:
-      return {...state, totalPrice: action.totalPrice, cartCreated: true}
+      return {
+        0: {...state[0], totalPrice: action.totalPrice, cartCreated: true}
+      }
     case GET_CART:
       return {
-        ...state,
-        ...action.orderProducts,
-        totalPrice: action.orderProducts[0].totalPrice
+        0: {...state[0], totalPrice: action.orderProducts[0].totalPrice},
+        ...action.orderProducts
       }
     case DELETE_PRODUCT_FROM_CART:
       let newState = {
@@ -136,7 +147,7 @@ export default function(state = defaultOrder, action) {
       }
       return newState
     case UPDATE_TOTAL_PRICE:
-      return {...state, totalPrice: action.totalPrice}
+      return {0: {...state[0], totalPrice: action.totalPrice}}
 
     default:
       return state

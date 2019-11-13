@@ -52,15 +52,11 @@ class GuestOrderProducts extends Component {
     return quantity
   }
 
-  componentDidUpdate() {
-    this.props.history.push('./home')
-  }
-
   render() {
     return (
       <form onSubmit={this.handleSubmit}>
         <div>
-          <h5>Total Price: ${this.state.totalPrice / 100} </h5>
+          <h5>Total Price: ${this.props.guestCart.totalPrice / 100} </h5>
           <button type="submit" className="save">
             Save
           </button>

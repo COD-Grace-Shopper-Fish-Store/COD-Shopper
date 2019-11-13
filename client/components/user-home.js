@@ -24,7 +24,7 @@ class UserHome extends React.Component {
   }
 
   async componentDidUpdate() {
-    if (!this.props.orders.cartCreated) {
+    if (!this.props.orders[0].cartCreated) {
       if (this.props.orders[0].orderSubmittedDate !== null) {
         console.log('ordersubmitted if hit, userId: ', this.props.userId)
         await this.props.createCart(this.props.userId)
@@ -37,6 +37,7 @@ class UserHome extends React.Component {
       Number(evt.currentTarget.value),
       this.props.orders[0].id
     )
+
     this.forceUpdate()
   }
 

@@ -128,12 +128,13 @@ export default function(state = defaultOrder, action) {
   Object.freeze(state)
   switch (action.type) {
     case CREATE_CART:
-      return {...state, totalPrice: action.totalPrice, cartCreated: true}
+      return {
+        0: {...state[0], totalPrice: action.totalPrice, cartCreated: true}
+      }
     case GET_CART:
       return {
-        ...state,
-        ...action.orderProducts,
-        totalPrice: action.orderProducts[0].totalPrice
+        0: {...state[0], totalPrice: action.orderProducts[0].totalPrice},
+        ...action.orderProducts
       }
     case DELETE_PRODUCT_FROM_CART:
       let newState = {
@@ -146,7 +147,7 @@ export default function(state = defaultOrder, action) {
       }
       return newState
     case UPDATE_TOTAL_PRICE:
-      return {...state, totalPrice: action.totalPrice}
+      return {0: {...state[0], totalPrice: action.totalPrice}}
 
     default:
       return state

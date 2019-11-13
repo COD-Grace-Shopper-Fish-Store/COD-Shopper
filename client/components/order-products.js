@@ -13,6 +13,7 @@ import {
 class OrderProducts extends Component {
   constructor(props) {
     super(props)
+    this.state = {}
     this.handleSubmit = this.handleSubmit.bind(this)
     this.getQuantity = this.getQuantity.bind(this)
   }
@@ -28,7 +29,7 @@ class OrderProducts extends Component {
 
     let order = {
       id: this.props.order[0].id,
-      totalPrice: this.props.order.totalPrice
+      totalPrice: this.props.order[0].totalPrice
     }
     if (event.target.name === 'checkout') {
       event.preventDefault()

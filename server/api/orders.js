@@ -55,7 +55,7 @@ router.post('/', isCurrentUserMiddleware, async (req, res, next) => {
     const newOrder = await Order.create({totalPrice: 0})
     // const newOrder = await Order.create({ ...req.body, totalPrice: 0 })
     if (newOrder) {
-      res.json({total: newOrder.totalPrice})
+      res.json(newOrder.totalPrice)
     } else {
       res.status(500).send('Order creation failed.')
     }
@@ -110,7 +110,6 @@ router.put('/submitOrder/:orderId', async (req, res, next) => {
 
 router.get('/orderItems/:orderId', async (req, res, next) => {
   try {
-    console.log('<<<<<<req.body: ', req.body)
     const orderItems = await OrderToItem.findAll({
       where: {
         orderId: req.params.orderId
@@ -240,6 +239,14 @@ router.post('/additem', async (req, res, next) => {
 //Deletes an ordertoitem record with the given id.
 //uses deleteitem path so it is not mistaken for deleting an entire cart.
 
+const computeTotalPrice = order => {
+  const sum = order.dataValues.products.reduce((acc, currProduct) => {
+    return acc + currProduct.dataValues.price
+  }, 0)
+
+  return sum
+}
+
 router.delete(
   '/deleteitem',
   isCurrentUserMiddleware,
@@ -251,6 +258,19 @@ router.delete(
           orderId: req.body.orderId
         }
       })
+      const existingOrder = await Order.findByPk(req.body.orderId, {
+        include: [
+          {
+            // Notice `include` takes an ARRAY
+            model: Product
+          }
+        ]
+      })
+      const newTotalPrice = computeTotalPrice(existingOrder)
+      await Order.update(
+        {totalPrice: newTotalPrice},
+        {where: {id: req.body.orderId}}
+      )
       if (deletedItem) {
         res.send('Item deleted')
       } else {

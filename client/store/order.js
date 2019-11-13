@@ -118,7 +118,7 @@ export default function(state = defaultOrder, action) {
   Object.freeze(state)
   switch (action.type) {
     case CREATE_CART:
-      return {...state, ...action.totalPrice}
+      return {...state, totalPrice: action.totalPrice, cartCreated: true}
     case GET_CART:
       return {
         ...state,

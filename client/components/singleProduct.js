@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {fetchProduct} from '../store/product'
-import {getCart, addProductToCart} from '../store'
+import {getCart, addProductToCart, addProductToGuestCart} from '../store'
 
 class SingleProduct extends Component {
   constructor(props) {
@@ -23,12 +23,18 @@ class SingleProduct extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
-
-    this.props.addProductToCart(
-      this.state.orderId,
-      this.props.match.params.id,
-      Number(this.state.quantity)
-    )
+    if (this.props.userId) {
+      this.props.addProductToCart(
+        this.state.orderId,
+        this.props.match.params.id,
+        Number(this.state.quantity)
+      )
+    } else {
+      this.props.addProductToGuestCart(
+        this.props.match.params.id,
+        Number(this.state.quantity)
+      )
+    }
 
     this.setState({
       quantity: ''
@@ -85,7 +91,9 @@ const mapDispatchToProps = dispatch => ({
   fetchProduct: id => dispatch(fetchProduct(id)),
   getCart: id => dispatch(getCart(id)),
   addProductToCart: (orderId, productId, quantity) =>
-    dispatch(addProductToCart(orderId, productId, quantity))
+    dispatch(addProductToCart(orderId, productId, quantity)),
+  addProductToGuestCart: (productId, quantity) =>
+    dispatch(addProductToGuestCart(productId, quantity))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(SingleProduct)

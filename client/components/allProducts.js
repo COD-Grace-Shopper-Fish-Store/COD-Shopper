@@ -53,12 +53,12 @@ class AllProducts extends React.Component {
     return (
       <div className="all-products-body">
         <h1>All the fishies!</h1>
-        <input
+        {/* <input
           type="text"
           className="input"
           onChange={this.handleChange}
           placeholder="Search..."
-        />
+        /> */}
         <ul>
           {this.state.filtered > 0
             ? this.state.filtered.map(product => (

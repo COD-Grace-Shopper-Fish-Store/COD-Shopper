@@ -177,7 +177,7 @@ router.put(
 
 //Add product to order item table
 //Updating order with new total price
-router.post('/additem', isCurrentUserMiddleware, async (req, res, next) => {
+router.post('/additem', async (req, res, next) => {
   try {
     // console.log('the body is: ', req.body)
     //gets any existing OrderItems that have the same product for this orderId
